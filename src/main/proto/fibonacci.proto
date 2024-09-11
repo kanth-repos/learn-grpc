@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.fibonacci";
+option objc_class_prefix = "HLW";
+
+service Fibonacci {
+  rpc fibonacci(FibonacciRequest) returns (stream FibonacciResponse) {}
+}
+
+message FibonacciRequest {
+  int32 limit = 1;
+}
+
+message FibonacciResponse {
+  int32 index = 1;
+  int32 value = 2;
+}

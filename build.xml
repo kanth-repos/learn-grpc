@@ -32,13 +32,19 @@
   <!-- Used to build protoc-->
   <target name="proto" depends="mkdir">
     <exec executable="protoc">
+      <arg value="-I${basedir}"/>
       <arg value="--plugin=protoc-gen-grpc-java=${env.PROTO_PLUGINS}/protoc-gen-grpc-java-1.66.0-linux-x86_64.exe" />
       <arg value="--grpc-java_out=${toProto}"/>
       <arg value="${fromProto}/greeter.proto"/>
+      <arg value="${fromProto}/fibonacci.proto"/>
+      <arg value="${fromProto}/sum.proto"/>
     </exec>
     <exec executable="protoc">
+      <arg value="-I${basedir}"/>
       <arg value="--java_out=${toProto}"/>
       <arg value="${fromProto}/greeter.proto"/>
+      <arg value="${fromProto}/fibonacci.proto"/>
+      <arg value="${fromProto}/sum.proto"/>
     </exec>
   </target>
 
