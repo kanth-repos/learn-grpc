@@ -1,0 +1,65 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="learn-grpc" default="build" basedir=".">
+  <property name="dist" value="target" />
+
+  <property name="fromProto" value="src/main/proto" />
+  <property name="fromRes" value="src/main/resources" />
+  <property name="fromSrc" value="src/main/java" />
+
+  <property name="lib" value="lib" />
+  
+  <property name="toClasses" value="${dist}/classes" />
+  <property name="toRes" value="${dist}/classes" />
+  <property name="toProto" value="src/main/generated"/>
+
+  <property environment="env"/>
+
+  <target name="resolve" description="retrieve dependencies with Ivy">
+    <ivy:retrieve />
+  </target>
+
+  <!-- Used to clean the folder that created during build-->
+  <target name="clean">
+    <delete dir="${dist}" />
+  </target>
+
+  <!-- Used to make folders for build and dist-->
+  <target name="mkdir" depends="clean">
+    <mkdir dir="${toProto}" />
+    <mkdir dir="${dist}" />
+    <mkdir dir="${toClasses}" />
+  </target>
+
+  <!-- Used to build protoc-->
+  <target name="proto" depends="mkdir">
+    <exec executable="protoc">
+      <arg value="--plugin=protoc-gen-grpc-java=${env.PROTO_PLUGINS}/protoc-gen-grpc-java-1.66.0-linux-x86_64.exe" />
+      <arg value="--grpc-java_out=${toProto}"/>
+      <arg value="${fromProto}/greeter.proto"/>
+    </exec>
+    <exec executable="protoc">
+      <arg value="--java_out=${toProto}"/>
+      <arg value="${fromProto}/greeter.proto"/>
+    </exec>
+  </target>
+
+  <!-- Used to copy files to the dist folder-->
+  <target name="copy" depends="mkdir">
+    <copy todir="${toRes}">
+      <fileset dir="${fromRes}" />
+    </copy>
+  </target>
+
+  <!-- Used to compile the java files-->
+  <target name="build" depends="copy, proto">
+    <javac srcdir="${fromSrc}" destdir="${toClasses}" includeantruntime="false" debug="true">
+      <classpath>
+        <fileset dir="${lib}" includes="**/*.jar" />
+      </classpath>
+    </javac>
+    <javac srcdir="${toProto}" destdir="${toClasses}" includeantruntime="false" debug="true">
+      <classpath>
+        <fileset dir="${lib}" includes="**/*.jar" />
+      </classpath>
+    </javac>
+  </target>
+</project>

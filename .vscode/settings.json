@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "src/main/generated",
+        "src/main/java"
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
+}

@@ -1,0 +1,10 @@
+<ivy-module version="2.0">
+  <info organisation="com.example" module="learn-grpc" />
+  <dependencies>
+    <dependency org="io.grpc" name="grpc-netty-shaded" rev="1.66.0" />
+    <dependency org="io.grpc" name="grpc-protobuf" rev="1.66.0" />
+    <dependency org="io.grpc" name="grpc-stub" rev="1.66.0" />
+    <dependency org="com.google.protobuf" name="protobuf-java" rev="4.28.0" />
+    <dependency org="org.apache.tomcat" name="annotations-api" rev="6.0.53" />
+  </dependencies>
+</ivy-module>
